@@ -4,6 +4,7 @@
   "description": "fetno-camp backend",
   "main": "server.js",
   "scripts": {
+    "debug": "nodemon server.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "Wuletaw Wonte",
@@ -11,5 +12,8 @@
   "dependencies": {
     "express": "^4.17.1",
     "mongoose": "^6.0.4"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.12"
   }
 }
