@@ -3,10 +3,36 @@ const bcrypt = require("bcrypt");
 const User = require("../models/user");
 
 exports.getAllUsers = (req, res) => {
-  res.status(200).json({
-    message: "This is user root end point",
-  });
+  User.find()
+    .exec()
+    .then((docs) => {
+      res.status(200).json({
+        data: docs,
+      });
+    })
+    .catch((err) => {
+      res.status(500).json({
+          error: err
+      })
+    });
 };
+
+exports.getUser = (req, res) => {
+    const id = req.params.userId;
+    User.findById(id)
+    .exec()
+    .then((doc) => {
+      res.status(200).json({
+        data: doc,
+      });
+    })
+    .catch((err) => {
+      res.status(500).json({
+          error: err
+      })
+    });
+
+}
 
 exports.registerUser = (req, res) => {
   bcrypt.hash(req.body.password, 10, (err, hash) => {
@@ -18,7 +44,7 @@ exports.registerUser = (req, res) => {
       const user = new User({
         _id: mongoose.Types.ObjectId(),
         username: req.body.username,
-        password: hash
+        password: hash,
       });
 
       user.save();
