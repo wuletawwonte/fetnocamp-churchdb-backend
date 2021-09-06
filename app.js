@@ -1,16 +1,22 @@
 const express = require('express');
 const app = express();
+const mongoose = require('mongoose');
 
 // import routes
-const userRoute = require('./api/routes/user');
+const userRoutes = require('./api/routes/user');
 
-// use json format data
+const connectionString = "mongodb+srv://wuletaw:" + process.env.MONGO_ATLAS_PWD + "@fetnocamp.jzx9n.mongodb.net/fetnocamp?retryWrites=true&w=majority";
+
+mongoose.connect(connectionString);
+
+// parse json data and url encoded data
 app.use(express.json());
+app.use(express.urlencoded({extended: true}));
 
-app.use('/user', userRoute);
+app.use('/user', userRoutes);
 
 app.use((req, res, next) => {
-    const error = new Error('Not found');
+    const error = new Error('Not found' + process.env.MONGO_ATLAS_PWD);
     error.status = 404;
     next(error);
 })
