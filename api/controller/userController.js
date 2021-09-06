@@ -1,5 +1,6 @@
-const mongoose = require('mongoose');
-const User = require('../models/user');
+const mongoose = require("mongoose");
+const bcrypt = require("bcrypt");
+const User = require("../models/user");
 
 exports.getAllUsers = (req, res) => {
   res.status(200).json({
@@ -8,15 +9,23 @@ exports.getAllUsers = (req, res) => {
 };
 
 exports.registerUser = (req, res) => {
-    const user = new User({
+  bcrypt.hash(req.body.password, 10, (err, hash) => {
+    if (err) {
+      return res.status(500).json({
+        message: err,
+      });
+    } else {
+      const user = new User({
         _id: mongoose.Types.ObjectId(),
         username: req.body.username,
-        password: req.body.password
-    });
+        password: hash
+      });
 
-    user.save();
-    res.status(200).json({
+      user.save();
+      res.status(200).json({
         message: "User added successfully",
-        data: user
-    })
+        data: user,
+      });
+    }
+  });
 };
