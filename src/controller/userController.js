@@ -39,7 +39,7 @@ exports.registerUser = (req, res, next) => {
       if (user.length >= 1) {
         console.log("User Already Exists");
         res.status(409).json({
-          message: "User already exists"
+          message: "User already exists",
         });
       } else {
         bcrypt.hash(req.body.password, 10, (err, hash) => {
@@ -70,6 +70,23 @@ exports.registerUser = (req, res, next) => {
           }
         });
       }
+    })
+    .catch((err) => {
+      console.log("Internal Server Error: " + err);
+      res.status(500).json({
+        message: "Internal Server Error: " + err,
+      });
+    });
+};
+
+exports.deleteUser = (req, res, next) => {
+  User.remove({ _id: req.params.userId })
+    .exec()
+    .then((result) => {
+      console.log("User deleted successfully");
+      res.status(200).json({
+        message: "User deleted successfully",
+      });
     })
     .catch((err) => {
       console.log("Internal Server Error: " + err);
