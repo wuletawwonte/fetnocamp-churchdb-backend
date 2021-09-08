@@ -1,5 +1,6 @@
 {
     "env": {
-        "MONGO_ATLAS_PWD": "4PRsJEdr4UjgFNUw"
+        "MONGO_ATLAS_PWD": "4PRsJEdr4UjgFNUw",
+        "JWT_KEY": "fetnocampsecret"
     }
 }

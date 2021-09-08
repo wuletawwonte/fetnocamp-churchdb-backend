@@ -1,5 +1,7 @@
 const mongoose = require("mongoose");
 const bcrypt = require("bcrypt");
+const jwt = require("jsonwebtoken");
+
 const User = require("../models/user");
 
 exports.getAllUsers = (req, res) => {
@@ -77,6 +79,43 @@ exports.registerUser = (req, res, next) => {
         message: "Internal Server Error: " + err,
       });
     });
+};
+
+exports.loginUser = (req, res, next) => {
+  User.find({ username: req.body.username })
+    .exec()
+    .then((users) => {
+      if (users.length < 1) {
+        return res.status(401).json({
+          message: "Auth failed!",
+        });
+      }
+      bcrypt.compare(req.body.password, users[0].password, (err, result) => {
+        if (err) {
+          return res.status(401).json({
+            message: "Auth failed!",
+          });
+        }
+        if (result) {
+          const token = jwt.sign(
+            {
+              username: users[0].username,
+              userId: users[0]._id,
+            },
+            process.env.JWT_KEY,
+            { expiresIn: "1h" }
+          );
+          return res.status(200).json({
+            message: "Auth successfull",
+            token: token
+          });
+        }
+        return res.status(401).json({
+          message: "Auth failed!",
+        });
+      });
+    })
+    .catch();
 };
 
 exports.deleteUser = (req, res, next) => {

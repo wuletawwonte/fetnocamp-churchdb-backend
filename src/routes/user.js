@@ -9,6 +9,8 @@ route.post('/register', userController.registerUser);
 
 route.get('/:userId', userController.getUser);
 
+route.post('/login', userController.loginUser);
+
 route.delete('/:userId', userController.deleteUser);
 
 module.exports = route;
