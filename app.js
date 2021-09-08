@@ -1,3 +1,4 @@
+const { json } = require('express');
 const express = require('express');
 const app = express();
 const mongoose = require('mongoose');
@@ -8,7 +9,12 @@ const userRoutes = require('./api/routes/user');
 const connectionString = "mongodb://192.168.56.104:27017/fetnocamp";
 // const localConnectionString = "mongodb+srv://wuletaw:" + process.env.MONGO_ATLAS_PWD + "@fetnocamp.jzx9n.mongodb.net/fetnocamp?retryWrites=true&w=majority";
 
-mongoose.connect(connectionString);
+mongoose.connect(connectionString).then(() => {
+    console.log('Successfully connected to mongo db');
+}).catch((err) => {
+    console.log(err);
+    console.error(err);
+});
 
 // parse json data and url encoded data
 app.use(express.json());
@@ -28,7 +34,7 @@ app.use((req, res, next) => {
 app.use('/user', userRoutes);
 
 app.use((req, res, next) => {
-    const error = new Error('Not found' + process.env.MONGO_ATLAS_PWD);
+    const error = new Error('Endpoint Not found');
     error.status = 404;
     next(error);
 })

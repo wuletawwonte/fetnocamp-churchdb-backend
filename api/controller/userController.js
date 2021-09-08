@@ -12,14 +12,14 @@ exports.getAllUsers = (req, res) => {
     })
     .catch((err) => {
       res.status(500).json({
-          error: err
-      })
+        error: err,
+      });
     });
 };
 
 exports.getUser = (req, res) => {
-    const id = req.params.userId;
-    User.findById(id)
+  const id = req.params.userId;
+  User.findById(id)
     .exec()
     .then((doc) => {
       res.status(200).json({
@@ -28,11 +28,10 @@ exports.getUser = (req, res) => {
     })
     .catch((err) => {
       res.status(500).json({
-          error: err
-      })
+        error: err,
+      });
     });
-
-}
+};
 
 exports.registerUser = (req, res) => {
   bcrypt.hash(req.body.password, 10, (err, hash) => {
@@ -47,11 +46,19 @@ exports.registerUser = (req, res) => {
         password: hash,
       });
 
-      user.save();
-      res.status(200).json({
-        message: "User added successfully",
-        data: user,
-      });
+      user
+        .save()
+        .then(() => {
+          res.status(200).json({
+            message: "User added successfully",
+            data: user,
+          });
+        })
+        .catch((err) => {
+          res.status(500).json({
+            message: "Internal Server Error: " + err
+          })
+        });
     }
   });
 };
