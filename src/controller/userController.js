@@ -8,9 +8,7 @@ exports.getAllUsers = (req, res) => {
   User.find()
     .exec()
     .then((docs) => {
-      res.status(200).json({
-        data: docs,
-      });
+      res.status(200).json(docs);
     })
     .catch((err) => {
       res.status(500).json({
