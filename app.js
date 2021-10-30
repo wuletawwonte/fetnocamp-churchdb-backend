@@ -2,11 +2,13 @@ const express = require('express');
 const app = express();
 const mongoose = require('mongoose');
 
+require('dotenv').config();
+
 // import routes
 const userRoutes = require('./src/routes/user');
 
 // const localConnectionString = "mongodb://192.168.56.104:27017/fetnocamp";
-const connectionString = "mongodb+srv://herokuser:herokuser@fetnocamp.jzx9n.mongodb.net/myFirstDatabase?retryWrites=true&w=majority";
+const connectionString = "mongodb+srv://wuletaw:"+process.env.MONGOATLASPWD+"@fetnocamp.jzx9n.mongodb.net/Fetnocamp?retryWrites=true&w=majority";
 
 mongoose.connect(connectionString).then(() => {
     console.log('Successfully connected to mongo db');
