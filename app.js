@@ -8,7 +8,7 @@ require('dotenv').config();
 const userRoutes = require('./src/routes/user');
 
 // const localConnectionString = "mongodb://192.168.56.104:27017/fetnocamp";
-const connectionString = "mongodb+srv://wuletaw:"+process.env.MONGOATLASPWD+"@fetnocamp.jzx9n.mongodb.net/Fetnocamp?retryWrites=true&w=majority";
+const connectionString = "mongodb+srv://wuletaw:"+process.env.MONGOATLASPWD+"@fetnocamp.jzx9n.mongodb.net/fetnocamp?retryWrites=true&w=majority";
 
 mongoose.connect(connectionString).then(() => {
     console.log('Successfully connected to mongo db');
