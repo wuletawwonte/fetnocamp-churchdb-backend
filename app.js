@@ -6,7 +6,7 @@ const mongoose = require('mongoose');
 const userRoutes = require('./src/routes/user');
 
 // const localConnectionString = "mongodb://192.168.56.104:27017/fetnocamp";
-const connectionString = "mongodb+srv://wuletaw:" + process.env.MONGO_ATLAS_PWD + "@fetnocamp.jzx9n.mongodb.net/fetnocamp?retryWrites=true&w=majority";
+const connectionString = "mongodb+srv://herokuser:herokuser@fetnocamp.jzx9n.mongodb.net/myFirstDatabase?retryWrites=true&w=majority";
 
 mongoose.connect(connectionString).then(() => {
     console.log('Successfully connected to mongo db');
