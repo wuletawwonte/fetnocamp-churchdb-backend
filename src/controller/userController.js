@@ -108,7 +108,7 @@ exports.loginUser = (req, res, next) => {
             token: token
           });
         }
-        return res.status(401).json({
+        return res.status(500).json({
           message: "Auth failed!",
         });
       });
