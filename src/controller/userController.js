@@ -50,7 +50,9 @@ exports.registerUser = (req, res, next) => {
           } else {
             const user = new User({
               _id: mongoose.Types.ObjectId(),
-              username: req.body.username,
+              firstname: req.body.firstname,
+              lastname: req.body.lastname,
+              username: req.body.username,              
               password: hash,
             });
 
