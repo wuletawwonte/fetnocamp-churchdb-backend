@@ -4,7 +4,9 @@ const app = require('./app');
 
 env.config();
 
-const PORT = process.env.PORT || 3030;
+const PORT = process.env.PORT || 3060;
+
+console.log(process.env.MONGOATLASPWD);
 
 const server = http.createServer(app);
 

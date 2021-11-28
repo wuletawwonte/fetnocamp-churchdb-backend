@@ -50,7 +50,9 @@ exports.registerUser = (req, res, next) => {
           } else {
             const user = new User({
               _id: mongoose.Types.ObjectId(),
-              username: req.body.username,
+              firstname: req.body.firstname,
+              lastname: req.body.lastname,
+              username: req.body.username,              
               password: hash,
             });
 
@@ -84,13 +86,13 @@ exports.loginUser = (req, res, next) => {
     .exec()
     .then((users) => {
       if (users.length < 1) {
-        return res.status(401).json({
+        return res.status(500).json({
           message: "Auth failed!",
         });
       }
       bcrypt.compare(req.body.password, users[0].password, (err, result) => {
         if (err) {
-          return res.status(401).json({
+          return res.status(500).json({
             message: "Auth failed!",
           });
         }
@@ -100,7 +102,7 @@ exports.loginUser = (req, res, next) => {
               username: users[0].username,
               userId: users[0]._id,
             },
-            process.env.JWT_KEY,
+            process.env.JWTKEY,
             { expiresIn: "1h" }
           );
           return res.status(200).json({
@@ -108,7 +110,7 @@ exports.loginUser = (req, res, next) => {
             token: token
           });
         }
-        return res.status(401).json({
+        return res.status(500).json({
           message: "Auth failed!",
         });
       });
